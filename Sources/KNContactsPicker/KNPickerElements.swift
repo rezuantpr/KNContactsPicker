@@ -16,29 +16,9 @@ struct KNPickerElements {
     private static let CLEAR_SELECTION_ICON         = "trash.circle"
     private static let CLEAR_SELECTION_FILLED_ICON  = "trash.circle.fill"
     
-    static func selectButton(_ count: Int, action: Selector, target: UIViewController, settings: KNPickerSettings) -> UIBarButtonItem {
-        let rightButton: UIButton = UIButton(type: .system)
-        let pickString = count > 0 ?
-            String(format: settings.selectedContactsPickButtonTitle, count) :
-            settings.defaultPickButtonTitle
-        
-        rightButton.setTitle(pickString, for: .normal)
-        rightButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        rightButton.addTarget(target, action: action, for: .touchUpInside)
-        
-        if #available(iOS 13.0, *) {
-            if (count > 0 ) {
-                let string = count == 0 ? PICK_CONTACT_ICON : PICK_CONTACT_FILLED_ICON
-                let contactsImage = UIImage(systemName: string)
-                rightButton.setImage(contactsImage, for: .normal)
-                rightButton.semanticContentAttribute = .forceRightToLeft
-            }
-            
-            rightButton.tintColor = .systemBlue
-        }
-        
-        rightButton.sizeToFit()
-        return UIBarButtonItem(customView: rightButton)
+    static func selectAllButton(action: Selector, target: UIViewController, settings: KNPickerSettings) -> UIBarButtonItem {
+      let rightButton = UIBarButtonItem(title: "SelectAll", style: .done, target: target, action: action)
+      return rightButton
     }
     
     static func selectAllButton(_ count: Int, action: Selector, target: UIViewController, settings: KNPickerSettings) -> UIBarButtonItem {
@@ -55,23 +35,9 @@ struct KNPickerElements {
         return UIBarButtonItem(customView: leftButton)
     }
     
-    static func clearButton(_ count: Int, action: Selector, target: UIViewController,  settings: KNPickerSettings) -> UIBarButtonItem {
-        let leftButton: UIButton = UIButton(type: .system)
-        leftButton.setTitle(settings.clearSelectionButtonTitle, for: .normal)
-        leftButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        leftButton.addTarget(target, action: action, for: .touchUpInside)
-        
-        if #available(iOS 13.0, *) {
-            let clearImageString = count == 0 ? CLEAR_SELECTION_ICON : CLEAR_SELECTION_FILLED_ICON
-            let clearImage = UIImage(systemName: clearImageString)
-            leftButton.setImage(clearImage, for: .normal)
-            leftButton.tintColor = .secondaryLabel
-        }
-        
-        leftButton.isUserInteractionEnabled = count > 0
-        
-        leftButton.sizeToFit()
-        return UIBarButtonItem(customView: leftButton)
+    static func closeButton(action: Selector, target: UIViewController,  settings: KNPickerSettings) -> UIBarButtonItem {
+      let leftButton = UIBarButtonItem(title: settings.closeButtonTitle, style: .done, target: target, action: action)
+      return leftButton
     }
     
     static func pullToDismissAlert(count: Int, contactName: String, settings: KNPickerSettings, controller: KNContactsPickerController) -> UIAlertController {
