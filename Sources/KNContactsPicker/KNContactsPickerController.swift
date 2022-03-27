@@ -94,20 +94,21 @@ class KNContactsPickerController: UITableViewController {
     self.navigationItem.largeTitleDisplayMode = .always
     self.navigationItem.hidesSearchBarWhenScrolling = false
     
-    view.addSubview(doneButton)
-    doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
-    doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-    doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-    doneButton.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight).isActive = true
-    
     view.addSubview(backgroundView)
     backgroundView.translatesAutoresizingMaskIntoConstraints = false
     backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
     backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
     backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-    backgroundView.topAnchor.constraint(equalTo: doneButton.topAnchor, constant: -8).isActive = true
+    backgroundView.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight + view.safeAreaInsets.bottom + 8).isActive = true
+    
     backgroundView.backgroundColor = UIColor(red: 245.0/255.0, green: 246.0/255.0, blue: 248.0/255.0, alpha: 1.0)
-    view.bringSubviewToFront(doneButton)
+    
+    backgroundView.addSubview(doneButton)
+    doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+    doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
+    doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
+    doneButton.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight).isActive = true
+  
     configureButtons()
     showDoneButton()
   }
