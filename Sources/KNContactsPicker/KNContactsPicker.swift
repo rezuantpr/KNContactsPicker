@@ -42,7 +42,7 @@ open class KNContactsPicker: UINavigationController {
   
   public init(delegate: KNContactPickingDelegate?, settings: KNPickerSettings) {
     self.contactPickingDelegate = delegate
-    self.settings = settings
+    self.settings = settings 
     super.init(nibName: nil, bundle: nil)
   }
   
