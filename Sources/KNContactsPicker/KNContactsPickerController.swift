@@ -103,12 +103,12 @@ class KNContactsPickerController: UITableViewController {
     backgroundView.translatesAutoresizingMaskIntoConstraints = false
     backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
     backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-    backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+    backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     backgroundView.topAnchor.constraint(equalTo: doneButton.topAnchor, constant: -8).isActive = true
-    
     backgroundView.backgroundColor = UIColor(red: 245.0/255.0, green: 246.0/255.0, blue: 248.0/255.0, alpha: 1.0)
     view.bringSubviewToFront(doneButton)
     configureButtons()
+    showDoneButton()
   }
   
   func configureButtons() {
