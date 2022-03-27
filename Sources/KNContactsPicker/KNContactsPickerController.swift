@@ -59,6 +59,7 @@ class KNContactsPickerController: UITableViewController {
     let inset: CGFloat = selectedContacts.count == 0 ? 0 : settings.doneButtonHeight + 8 + view.safeAreaInsets.bottom
     UIView.animate(withDuration: 0.4, delay: 0, options: [], animations: {
       self.backgroundView.alpha = alpha
+      self.doneButton.alpha = alpha
       self.tableView.contentInset.bottom = inset
     }, completion: nil)
   }
