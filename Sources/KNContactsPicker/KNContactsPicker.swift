@@ -36,13 +36,13 @@ open class KNContactsPicker: UINavigationController {
     
     let contactPickerController = self.getContactsPicker()
     
-    self.presentationController?.delegate = contactPickerController
+//    self.presentationController?.delegate = contactPickerController
     self.viewControllers.append(contactPickerController)
   }
   
   public init(delegate: KNContactPickingDelegate?, settings: KNPickerSettings) {
     self.contactPickingDelegate = delegate
-    self.settings = settings 
+    self.settings = settings
     super.init(nibName: nil, bundle: nil)
   }
   

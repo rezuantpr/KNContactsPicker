@@ -27,8 +27,12 @@ class KNContactsPickerController: UITableViewController {
     if #available(iOS 13.0, *) {
       button.layer.cornerCurve = .continuous
     }
+    button.addTarget(self, action: #selector(completeSelection), for: .touchUpInside)
+    
     return button
   }()
+  
+  let backgroundView = UIView()
   
   public var settings: KNPickerSettings = KNPickerSettings()
   public weak var delegate: KNContactPickingDelegate?
@@ -52,9 +56,10 @@ class KNContactsPickerController: UITableViewController {
   
   func showDoneButton() {
     let alpha: CGFloat = selectedContacts.count == 0 ? 0 : 1
-    
+    let inset: CGFloat = selectedContacts.count == 0 ? 0 : settings.doneButtonHeight + 8 + view.safeAreaInsets.bottom
     UIView.animate(withDuration: 0.4, delay: 0, options: [], animations: {
       self.doneButton.alpha = alpha
+      self.tableView.contentInset.bottom = inset
     }, completion: nil)
   }
   
@@ -93,6 +98,16 @@ class KNContactsPickerController: UITableViewController {
     doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
     doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
     doneButton.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight).isActive = true
+    
+    view.addSubview(backgroundView)
+    backgroundView.translatesAutoresizingMaskIntoConstraints = false
+    backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+    backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+    backgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+    backgroundView.topAnchor.constraint(equalTo: doneButton.topAnchor, constant: -8).isActive = true
+    
+    backgroundView.backgroundColor = UIColor(red: 245.0/255.0, green: 246.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+    
     configureButtons()
   }
   
@@ -227,6 +242,13 @@ extension KNContactsPickerController: UISearchResultsUpdating {
     })
     let outcome = KNContactUtils.sortContactsIntoSections(contacts: filteredContacts, sortingType: .givenName)
     self.filteredContacts = outcome.sortedContacts
+    
+    
+    if isSelectedAll() {
+      self.navigationItem.rightBarButtonItem?.title = "Deselect All"
+    } else {
+      self.navigationItem.rightBarButtonItem?.title = "Select All"
+    }
   }
   
   
@@ -234,19 +256,6 @@ extension KNContactsPickerController: UISearchResultsUpdating {
     self.filterContentForSearchText(searchController.searchBar.text!)
     self.tableView.reloadData()
   }
-}
-
-// MARK: PRESENTATION DELEGATE
-extension KNContactsPickerController: UIAdaptivePresentationControllerDelegate {
-  
-  func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-    return selectedContacts.count == 0
-  }
-  
-  func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-    self.confirmCancel()
-  }
-  
 }
 
 #endif

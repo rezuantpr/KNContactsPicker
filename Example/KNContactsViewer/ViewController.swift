@@ -33,10 +33,13 @@ class ViewController: UIViewController, UITableViewDelegate {
             return self?.contacts.contains(contact) ?? false
         }
       
-      settings.doneButtonBackgroundColor = .red
-
+      settings.tintColor = .blue
+      settings.closeButtonTitle = "Cancel"
+      
         let controller = KNContactsPicker(delegate: self, settings: settings)
-        
+      
+      controller.navigationBar.tintColor = .red
+
         self.navigationController?.present(controller, animated: true, completion: nil)
           
     }
