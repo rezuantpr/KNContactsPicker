@@ -21,7 +21,12 @@ class KNContactsPickerController: UITableViewController {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(settings.doneButtonTitle, for: .normal)
     button.setTitleColor(settings.doneButtonTitleColor, for: .normal)
-    button.backgroundColor = settings.doneButtonBackgroundColor
+    button.setBackgroundColor(color: settings.tintColor, forState: .normal)
+    button.setBackgroundColor(color: settings.tintColor.withAlphaComponent(0.7), forState: .highlighted)
+    button.layer.cornerRadius = 10
+    if #available(iOS 13.0, *) {
+      button.layer.cornerCurve = .continuous
+    }
     return button
   }()
   
@@ -66,6 +71,10 @@ class KNContactsPickerController: UITableViewController {
     return (searchResultsController?.isActive ?? false) && !isSearchBarEmpty
   }
   
+  func isSelectedAll() -> Bool {
+    isFiltering ? selectedContacts.count == filteredContacts.count : selectedContacts.count == contacts.count
+  }
+  
   override open func viewDidLoad() {
     super.viewDidLoad()
     
@@ -88,9 +97,9 @@ class KNContactsPickerController: UITableViewController {
   }
   
   func configureButtons() {
-    navigationItem.rightBarButtonItem = KNPickerElements.selectAllButton(action: #selector(completeSelection), target: self, settings: settings)
+    navigationItem.rightBarButtonItem = KNPickerElements.selectAllButton(action: #selector(selectAllSelected), target: self, settings: settings)
     
-    navigationItem.leftBarButtonItem = KNPickerElements.closeButton(action: #selector(clearSelected), target: self, settings: settings)
+    navigationItem.leftBarButtonItem = KNPickerElements.closeButton(action: #selector(close), target: self, settings: settings)
   }
   
   public func getSelectedContacts() -> [CNContact] {
@@ -98,8 +107,18 @@ class KNContactsPickerController: UITableViewController {
   }
   
   @objc func selectAllSelected() {
-    let contactsToAdd = isFiltering ? filteredContacts : contacts
-    selectedContacts = Set(contactsToAdd)
+    if isSelectedAll() {
+      selectedContacts.removeAll()
+      self.navigationItem.rightBarButtonItem?.title = "Select All"
+    } else {
+      let contactsToAdd = isFiltering ? filteredContacts : contacts
+      selectedContacts = Set(contactsToAdd)
+      self.navigationItem.rightBarButtonItem?.title = "Deselect All"
+    }
+  }
+  
+  @objc func close() {
+    dismiss(animated: true, completion: nil)
   }
   
   @objc func completeSelection() {
@@ -120,6 +139,12 @@ class KNContactsPickerController: UITableViewController {
     } else {
       selectedContacts.insert(contact)
     }
+    
+      if isSelectedAll() {
+        self.navigationItem.rightBarButtonItem?.title = "Deselect All"
+      } else {
+        self.navigationItem.rightBarButtonItem?.title = "Select All"
+      }
   }
   
   fileprivate func confirmCancel() {

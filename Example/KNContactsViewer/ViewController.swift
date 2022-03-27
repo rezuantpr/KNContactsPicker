@@ -10,6 +10,16 @@ import UIKit
 import KNContactsPicker
 import ContactsUI
 
+class Picker: KNContactsPicker {
+  init(ss: Int) {
+    super.init(delegate: nil, settings: .init())
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
 class ViewController: UIViewController, UITableViewDelegate {
 
     var settings = KNPickerSettings()
@@ -22,6 +32,8 @@ class ViewController: UIViewController, UITableViewDelegate {
         settings.conditionToDisableContact = { [weak self] contact in
             return self?.contacts.contains(contact) ?? false
         }
+      
+      settings.doneButtonBackgroundColor = .red
 
         let controller = KNContactsPicker(delegate: self, settings: settings)
         

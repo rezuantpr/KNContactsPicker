@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		15FC45ED235FB59200AF13C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15FC45EB235FB59200AF13C4 /* Main.storyboard */; };
 		15FC45EF235FB59400AF13C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15FC45EE235FB59400AF13C4 /* Assets.xcassets */; };
 		15FC45F2235FB59400AF13C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15FC45F0235FB59400AF13C4 /* LaunchScreen.storyboard */; };
+		E5229D0F27F083B0002BEBAC /* KNContactsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = E5229D0E27F083B0002BEBAC /* KNContactsPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5229D0F27F083B0002BEBAC /* KNContactsPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +115,7 @@
 			);
 			name = KNContactsViewer;
 			packageProductDependencies = (
+				E5229D0E27F083B0002BEBAC /* KNContactsPicker */,
 			);
 			productName = KNContactsViewer;
 			productReference = 15FC45E2235FB59200AF13C4 /* KNContactsViewer.app */;
@@ -143,6 +146,7 @@
 			);
 			mainGroup = 15FC45D9235FB59200AF13C4;
 			packageReferences = (
+				E5229D0D27F083B0002BEBAC /* XCRemoteSwiftPackageReference "KNContactsPicker" */,
 			);
 			productRefGroup = 15FC45E3235FB59200AF13C4 /* Products */;
 			projectDirPath = "";
@@ -375,6 +379,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E5229D0D27F083B0002BEBAC /* XCRemoteSwiftPackageReference "KNContactsPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rezuantpr/KNContactsPicker";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E5229D0E27F083B0002BEBAC /* KNContactsPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E5229D0D27F083B0002BEBAC /* XCRemoteSwiftPackageReference "KNContactsPicker" */;
+			productName = KNContactsPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 15FC45DA235FB59200AF13C4 /* Project object */;
 }

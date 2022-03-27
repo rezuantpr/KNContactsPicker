@@ -38,11 +38,12 @@ public enum KNContactCellImageOptions {
 public struct KNPickerSettings {
   
   // MARK: PICKER TOP SETTINGS
+  public var tintColor: UIColor = .blue
+  
   public var pickerTitle: String = "Contacts"
   
   public var doneButtonTitle: String = "Pick"
   
-  public var doneButtonBackgroundColor: UIColor = .blue
   public var doneButtonTitleColor: UIColor = .white
   
   public var doneButtonHeight: CGFloat = 50
@@ -51,6 +52,7 @@ public struct KNPickerSettings {
   // If setting to `userProvided` then make sure to set pickerContactsList with
   // the list of contacts to display
   public var pickerContactsSource: KNContactsSource = .default
+  
   public var pickerContactsList: [CNContact] = []
   
   // The 
