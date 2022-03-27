@@ -58,7 +58,7 @@ class KNContactsPickerController: UITableViewController {
     let alpha: CGFloat = selectedContacts.count == 0 ? 0 : 1
     let inset: CGFloat = selectedContacts.count == 0 ? 0 : settings.doneButtonHeight + 8 + view.safeAreaInsets.bottom
     UIView.animate(withDuration: 0.4, delay: 0, options: [], animations: {
-      self.doneButton.alpha = alpha
+      self.backgroundView.alpha = alpha
       self.tableView.contentInset.bottom = inset
     }, completion: nil)
   }
@@ -107,7 +107,7 @@ class KNContactsPickerController: UITableViewController {
     backgroundView.topAnchor.constraint(equalTo: doneButton.topAnchor, constant: -8).isActive = true
     
     backgroundView.backgroundColor = UIColor(red: 245.0/255.0, green: 246.0/255.0, blue: 248.0/255.0, alpha: 1.0)
-    
+    view.bringSubviewToFront(doneButton)
     configureButtons()
   }
   
