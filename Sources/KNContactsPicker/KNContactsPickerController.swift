@@ -162,14 +162,17 @@ class KNContactsPickerController: UIViewController {
     }
   }
   
+  public func deselectAll() {
+    selectedContacts.removeAll()
+    self.navigationItem.rightBarButtonItem?.title = "Select All"
+  }
+  
   @objc func close() {
     dismiss(animated: true, completion: nil)
   }
   
   @objc func completeSelection() {
     self.presentationDelegate?.contactPickerDidSelect(self)
-    selectedContacts.removeAll()
-    self.navigationItem.rightBarButtonItem?.title = "Select All"
   }
   
   @objc func clearSelected() {

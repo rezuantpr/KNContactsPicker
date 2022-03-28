@@ -18,6 +18,7 @@ open class KNContactsPicker: UINavigationController {
   
   private var sortingOutcome: KNSortingOutcome?
   
+  lazy var contactPickerController = self.getContactsPicker()
   override open func viewDidLoad() {
     super.viewDidLoad()
     self.fetchContacts()
@@ -25,9 +26,6 @@ open class KNContactsPicker: UINavigationController {
     self.navigationBar.prefersLargeTitles = true
     self.navigationItem.largeTitleDisplayMode = .always
     
-    let contactPickerController = self.getContactsPicker()
-    
-//    self.presentationController?.delegate = contactPickerController
     self.viewControllers.append(contactPickerController)
   }
   
@@ -39,6 +37,10 @@ open class KNContactsPicker: UINavigationController {
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  public func deselectAll() {
+    contactPickerController.deselectAll()
   }
   
   func getContactsPicker() -> KNContactsPickerController {
