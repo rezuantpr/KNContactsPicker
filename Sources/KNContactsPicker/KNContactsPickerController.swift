@@ -15,7 +15,17 @@ protocol KNContactsPickerControllerPresentationDelegate: AnyObject {
   func contactPickerDidSelect(_ picker: KNContactsPickerController)
 }
 
-class KNContactsPickerController: UITableViewController {
+class KNContactsPickerController: UIViewController {
+  lazy var tableView: UITableView = {
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    tableView.register(KNContactCell.self, forCellReuseIdentifier: CELL_ID)
+    tableView.sectionIndexColor = UIColor.lightGray
+    tableView.dataSource = self
+    tableView.delegate = self
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    return tableView
+  }()
+  
   lazy var doneButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +38,6 @@ class KNContactsPickerController: UITableViewController {
       button.layer.cornerCurve = .continuous
     }
     button.addTarget(self, action: #selector(completeSelection), for: .touchUpInside)
-    
     return button
   }()
   
@@ -84,33 +93,47 @@ class KNContactsPickerController: UITableViewController {
   override open func viewDidLoad() {
     super.viewDidLoad()
     
-    self.tableView.register(KNContactCell.self, forCellReuseIdentifier: CELL_ID)
+//    view.backgroundColor = .white
     self.navigationItem.largeTitleDisplayMode = .always
     self.navigationItem.title = settings.pickerTitle
-    self.tableView.sectionIndexColor = UIColor.lightGray
     
     self.searchResultsController = KNPickerElements.searchResultsController(settings: settings, controller: self)
     self.navigationItem.searchController = searchResultsController
     self.navigationItem.largeTitleDisplayMode = .always
     self.navigationItem.hidesSearchBarWhenScrolling = false
     
+    
+    view.addSubview(tableView)
     view.addSubview(backgroundView)
+    
+    backgroundView.backgroundColor = UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 231.0/255.0, alpha: 1.0)
+    
+    backgroundView.addSubview(doneButton)
+    
+    view.layoutIfNeeded()
+    view.setNeedsUpdateConstraints()
+    configureButtons()
+    showDoneButton()
+  }
+  
+  override func updateViewConstraints() {
+    tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+    tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+    tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+
     backgroundView.translatesAutoresizingMaskIntoConstraints = false
     backgroundView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
     backgroundView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
     backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-    backgroundView.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight + view.safeAreaInsets.bottom + 8).isActive = true
+    backgroundView.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight +  view.safeAreaInsets.bottom + 8 + 16).isActive = true
     
-    backgroundView.backgroundColor = UIColor(red: 245.0/255.0, green: 246.0/255.0, blue: 248.0/255.0, alpha: 1.0)
-    
-    backgroundView.addSubview(doneButton)
     doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
     doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
     doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
     doneButton.heightAnchor.constraint(equalToConstant: settings.doneButtonHeight).isActive = true
-  
-    configureButtons()
-    showDoneButton()
+    
+    super.updateViewConstraints()
   }
   
   func configureButtons() {
@@ -186,22 +209,27 @@ class KNContactsPickerController: UITableViewController {
     }
   }
   
+}
+
+extension KNContactsPickerController: UITableViewDelegate, UITableViewDataSource {
+  
   // MARK: Table View Sections
-  override open func numberOfSections(in tableView: UITableView) -> Int {
+  open func numberOfSections(in tableView: UITableView) -> Int {
     return isFiltering ? 1 : self.sections.count
   }
   
-  override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return isFiltering ? settings.searchResultSectionTitle : self.sections[section]
   }
   
   // MARK: Table View Rows
-  override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return isFiltering ? self.filteredContacts.count : self.sortedContacts[self.sections[section]]?.count ?? 0
   }
   
-  override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: CELL_ID, for: indexPath) as! KNContactCell
+    cell.tintColor = settings.tintColor
     let contact = self.getContact(at: indexPath)
     let contactModel = KNContactCellModel(contact: contact, settings: settings, formatter: formatter)
     
@@ -215,21 +243,21 @@ class KNContactsPickerController: UITableViewController {
     return cell
   }
   
-  override open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+  open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 50
   }
   
-  override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let contact = self.getContact(at: indexPath)
     self.toggleSelected(contact)
   }
   
   // MARK: Section Index Title
-  override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+  func sectionIndexTitles(for tableView: UITableView) -> [String]? {
     return self.sections
   }
   
-  override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+  func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
     return index
   }
   

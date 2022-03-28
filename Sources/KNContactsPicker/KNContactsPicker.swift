@@ -16,15 +16,6 @@ open class KNContactsPicker: UINavigationController {
   weak var contactPickingDelegate: KNContactPickingDelegate!
   private var contacts: [CNContact] = []
   
-  var tableViewStyle: UITableView.Style {
-    get {
-      if #available(iOS 13.0, *) {
-        return UITableView.Style.insetGrouped
-      }
-      return UITableView.Style.grouped
-    }
-  }
-  
   private var sortingOutcome: KNSortingOutcome?
   
   override open func viewDidLoad() {
@@ -51,7 +42,7 @@ open class KNContactsPicker: UINavigationController {
   }
   
   func getContactsPicker() -> KNContactsPickerController {
-    let controller = KNContactsPickerController(style: tableViewStyle)
+    let controller = KNContactsPickerController()
     
     controller.settings = settings
     controller.delegate = contactPickingDelegate

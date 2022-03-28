@@ -123,28 +123,28 @@ class KNContactCell: UITableViewCell {
     }
     
     func setCellToSelectedStyle() {
-        self.accessoryView?.backgroundColor = UIColor.systemBlue
-        self.contentView.backgroundColor = UIColor.systemBlue
+//        self.accessoryView?.backgroundColor = UIColor.systemBlue
+//        self.contentView.backgroundColor = UIColor.systemBlue
         self.accessoryType = UITableViewCell.AccessoryType.checkmark
-        self.tintColor = UIColor.white
-        self.backgroundColor = UIColor.systemBlue
+//      self.tintColor = s
+//        self.backgroundColor = UIColor.systemBlue
 
-        self.nameLabel.textColor = UIColor.white
-        self.subtitleLabel.textColor = UIColor.lightText
+//        self.nameLabel.textColor = UIColor.white
+//        self.subtitleLabel.textColor = UIColor.lightText
     }
     
     func setCellToUnselectedStyle() {
-        self.backgroundColor = initialColor
-        self.accessoryView?.backgroundColor = UIColor.clear
+//        self.backgroundColor = initialColor
+//        self.accessoryView?.backgroundColor = UIColor.clear
         self.accessoryType = UITableViewCell.AccessoryType.none
-        self.contentView.backgroundColor = initialColor
+//        self.contentView.backgroundColor = initialColor
          
-        self.nameLabel.textColor = UIColor.black
-        self.subtitleLabel.textColor = UIColor.lightText
-        if #available(iOS 13.0, *) {
-           self.nameLabel.textColor = UIColor.label
-           self.subtitleLabel.textColor = UIColor.secondaryLabel
-        }
+//        self.nameLabel.textColor = UIColor.black
+//        self.subtitleLabel.textColor = UIColor.lightText
+//        if #available(iOS 13.0, *) {
+//           self.nameLabel.textColor = UIColor.label
+//           self.subtitleLabel.textColor = UIColor.secondaryLabel
+//        }
         
     }
     
