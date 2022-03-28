@@ -17,7 +17,12 @@ protocol KNContactsPickerControllerPresentationDelegate: AnyObject {
 
 class KNContactsPickerController: UIViewController {
   lazy var tableView: UITableView = {
-    let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    var tableView: UITableView
+    if #available(iOS 13.0, *) {
+      tableView = UITableView(frame: .zero, style: .insetGrouped)
+    } else {
+      tableView = UITableView(frame: .zero, style: .grouped)
+    }
     tableView.register(KNContactCell.self, forCellReuseIdentifier: CELL_ID)
     tableView.sectionIndexColor = UIColor.lightGray
     tableView.dataSource = self
