@@ -10,29 +10,25 @@
 import Foundation
 
 extension KNContactsPicker: KNContactsPickerControllerPresentationDelegate {
-    
-    func contactPickerDidCancel(_ picker: KNContactsPickerController) {
-        self.dismiss(animated: true, completion: {
-            self.contactPickingDelegate?.contactPicker(didFailPicking: KNContactFetchingError.userCancelled)
-        })
+  
+  func contactPickerDidCancel(_ picker: KNContactsPickerController) {
+    self.dismiss(animated: true, completion: {
+      self.contactPickingDelegate?.contactPicker(didFailPicking: KNContactFetchingError.userCancelled)
+    })
+  }
+  
+  func contactPickerDidSelect(_ picker: KNContactsPickerController) {
+    let contacts = picker.getSelectedContacts()
+    if contacts.count > 1 {
+      self.contactPickingDelegate?.contactPicker(didSelect: contacts)
     }
-    
-    func contactPickerDidSelect(_ picker: KNContactsPickerController) {
-        let contacts = picker.getSelectedContacts()
-        
-        self.dismiss(animated: true, completion: {
-            if contacts.count > 1 {
-                self.contactPickingDelegate?.contactPicker(didSelect: contacts)
-            }
-            else {
-                guard let onlyContact = contacts.first else {
-                    let error: Error = KNContactFetchingError.fetchRequestFailed
-                    return (self.contactPickingDelegate?.contactPicker(didFailPicking: error))!
-                }
-                self.contactPickingDelegate?.contactPicker(didSelect: onlyContact)
-            }
-            
-        })
+    else {
+      guard let onlyContact = contacts.first else {
+        let error: Error = KNContactFetchingError.fetchRequestFailed
+        return (self.contactPickingDelegate?.contactPicker(didFailPicking: error))!
+      }
+      self.contactPickingDelegate?.contactPicker(didSelect: onlyContact)
     }
+  }
 }
 #endif
