@@ -119,16 +119,15 @@ class KNContactCell: UITableViewCell {
     func setAppropriateStyle() {
         self.isSelected ? self.setCellToSelectedStyle() : self.setCellToUnselectedStyle()
         self.layoutIfNeeded()
-        self.layoutSubviews()
     }
     
     func setCellToSelectedStyle() {
 //        self.accessoryView?.backgroundColor = UIColor.systemBlue
 //        self.contentView.backgroundColor = UIColor.systemBlue
         self.accessoryType = UITableViewCell.AccessoryType.checkmark
-//      self.tintColor = s
+//        self.tintColor = UIColor.white
 //        self.backgroundColor = UIColor.systemBlue
-
+//
 //        self.nameLabel.textColor = UIColor.white
 //        self.subtitleLabel.textColor = UIColor.lightText
     }

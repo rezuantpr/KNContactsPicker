@@ -248,6 +248,15 @@ extension KNContactsPickerController: UITableViewDelegate, UITableViewDataSource
     return cell
   }
   
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    cell.layoutIfNeeded()
+    if let cell = cell as? KNContactCell {
+      let contact = self.getContact(at: indexPath)
+      let selected = selectedContacts.contains(contact)
+      cell.setSelected(selected, animated: false)
+    }
+  }
+  
   open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 50
   }
