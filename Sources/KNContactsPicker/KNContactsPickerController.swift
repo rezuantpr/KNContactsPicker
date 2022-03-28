@@ -168,6 +168,8 @@ class KNContactsPickerController: UIViewController {
   
   @objc func completeSelection() {
     self.presentationDelegate?.contactPickerDidSelect(self)
+    selectedContacts.removeAll()
+    self.navigationItem.rightBarButtonItem?.title = "Select All"
   }
   
   @objc func clearSelected() {
